@@ -3,16 +3,24 @@
 import { useState } from 'react';
 import HeroSection from '@/components/HeroSection';
 import RevealMessageSection from '@/components/RevealMessageSection';
+import WatchVideoSection from '@/components/WatchVideoSection';
 
 export default function Home() {
-  const [showMessage, setShowMessage] = useState<boolean>(false);
+  const [activeSection, setActiveSection] = useState<'hero' | 'message' | 'video'>('hero');
 
   return (
     <main>
-      {showMessage ? (
-        <RevealMessageSection onBack={() => setShowMessage(false)} />
-      ) : (
-        <HeroSection onReveal={() => setShowMessage(true)} />
+      {activeSection === 'hero' && (
+        <HeroSection 
+          onReveal={() => setActiveSection('message')} 
+          onWatchVideo={() => setActiveSection('video')} 
+        />
+      )}
+      {activeSection === 'message' && (
+        <RevealMessageSection onBack={() => setActiveSection('hero')} />
+      )}
+      {activeSection === 'video' && (
+        <WatchVideoSection onBack={() => setActiveSection('hero')} />
       )}
     </main>
   );
